@@ -19,11 +19,24 @@ let playGame = (Player)=>{
   let computer = computerMove()
   if((player==='rock' && computer==='scissors')||(player==='scissors' && computer==='paper')||(player==='paper' && computer==='rock')){
     alert("Player wins");
+    stats.player++;
   } else if ((player==='rock' && computer==='paper')||(player==='scissors' && computer==='rock')||(player==='paper' && computer==='scissors')){
     alert("Computer wins");
+    stats.computer++;
   } else if (player===computer){
     alert("Game Draw");
+    stats.draws++;
   } else {
     alert("Choose a valid move i.e rock, paper, scissors");
+    return;
   }
+  stats.matches++;
+  console.log(stats);
+}
+
+const stats = {
+  computer: 0,
+  player: 0,
+  draws: 0,
+  matches: 0
 }
