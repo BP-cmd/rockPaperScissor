@@ -3,6 +3,7 @@ alert("Welcome to the game!!");
 const buttons = document.querySelectorAll('button');
 const score = document.querySelector('.score')
 const result = document.querySelector('.results');
+let playing = true;
 
 const stats = {
   computer: 0,
@@ -28,6 +29,10 @@ let computerMove = ()=>{
 };
 
 let playGame = (Player)=>{
+  if(!playing){
+    alert("Please reset the game by clicking the reset button !!");
+    return;
+  }
   let player = Player.toLowerCase();
   let computer = computerMove()
   if((player==='rock' && computer==='scissors')||(player==='scissors' && computer==='paper')||(player==='paper' && computer==='rock')){
@@ -57,5 +62,20 @@ function gameResult(){
   } else if(stats.computer>stats.player){
     result.innerText ="Computer Won the gome";
   }
+  playing = false;
+  const resetBtn = document.createElement('button');
+  resetBtn.innerText = "Reset";
+  document.querySelector('body').appendChild(resetBtn);
+  resetBtn.addEventListener('click',()=>{
+      for( key in stats){
+        stats[key] = 0;
+      }
+      score.innerText = "";
+      result.innerText = "";
+      result.style.backgroundColor = "transparent";
+      playing = true;
+      resetBtn.parentNode.removeChild(resetBtn);
+    }
+  )
 }
 
