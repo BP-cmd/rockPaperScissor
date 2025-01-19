@@ -1,10 +1,24 @@
 alert("Welcome to the game!!");
-let userChoice
-//function to create random number between 0,1,2 each time it's called
+
+const buttons = document.querySelectorAll('button');
+const score = document.querySelector('.score')
+const result = document.querySelector('.results');
+
+const stats = {
+  computer: 0,
+  player: 0,
+  draws: 0,
+  matches: 0
+};
+
+buttons.forEach((button) => button.addEventListener('click', (event)=>{
+  playGame(event.target.innerText);
+}));
+
 let randomNum = ()=>{
   return Math.floor(Math.random()*100)%3;
 };
-//function evaluate get computer move
+
 let computerMove = ()=>{
   switch(randomNum()){
     case 0: return "rock";
@@ -12,48 +26,36 @@ let computerMove = ()=>{
     case 2: return "paper";
   }
 };
+
 let playGame = (Player)=>{
   let player = Player.toLowerCase();
   let computer = computerMove()
   if((player==='rock' && computer==='scissors')||(player==='scissors' && computer==='paper')||(player==='paper' && computer==='rock')){
-    alert("Player wins");
+    result.style.color = "green";
+    result.innerText = "Player Won";
     stats.player++;
   } else if ((player==='rock' && computer==='paper')||(player==='scissors' && computer==='rock')||(player==='paper' && computer==='scissors')){
-    alert("Computer wins");
+    result.style.color = "red";
+    result.innerText = "Computer Won!!";
     stats.computer++;
   } else if (player===computer){
-    alert("Game Draw");
+    result.style.color = "yellow";
+    result.innerText = "It's a Draw";
     stats.draws++;
-  } else {
-    alert("Choose a valid move i.e rock, paper, scissors");
-    return;
   }
+
   stats.matches++;
-  console.log(stats);
-}
-//object to store the score and track the game
-const stats = {
-  computer: 0,
-  player: 0,
-  draws: 0,
-  matches: 0
-}
-//function to display final game result
-function gameResult(){
-  let result;
-  if(stats.computer<stats.player){
-    result="Player Won the Game";
-  } else if(stats.computer>stats.player){
-    result="Computer Won the gome";
-  } else {
-    result = "Game tied";
-  }
-  alert(`GAME OVER !!\nPlayer score: ${stats.player}\nComputer Score: ${stats.computer}\nMatch Tied: ${stats.draws}\n${result}`)
+  score.innerText = `Score: 
+    Player: ${stats.player} | Computer: ${stats.computer} | Draws: ${stats.draws}`;
+  if(stats.computer === 5 || stats.player === 5) gameResult();
 }
 
-while(stats.matches<5){
-  userChoice  = prompt("Choose your move -- rock/paper/scissors ?", null);
-  if(!userChoice)continue;
-  playGame(userChoice);
+function gameResult(){
+  result.setAttribute("style", "background-color: orange; color: blue;");
+  if(stats.computer<stats.player){
+    result.innerText="Player Won the Game";
+  } else if(stats.computer>stats.player){
+    result.innerText ="Computer Won the gome";
+  }
 }
-gameResult();
+
